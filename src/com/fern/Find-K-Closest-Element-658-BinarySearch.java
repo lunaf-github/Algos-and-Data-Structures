@@ -14,7 +14,7 @@ An integer a is closer to x than an integer b if:
 class Solution {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
 
-        //Left equals to the first indes of the Array.
+        //Left equals to the first index of the Array.
         // Right equals to the last index of the Array
         int left = 0;
         int right = arr.length-1;
@@ -38,7 +38,7 @@ class Solution {
         //Loop through the array, starting from the new left index and ending to the new right index.
         //We add each element withing these two indexs to the new ArrayList.
 
-                List<Integer> ans = new ArrayList<>(k);
+        List<Integer> ans = new ArrayList<>(k);
         for ( int i = left; i <= right; i++ ){
             ans.add(arr[i]);
         }
