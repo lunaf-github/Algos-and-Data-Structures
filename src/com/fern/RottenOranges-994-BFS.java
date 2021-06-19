@@ -1,62 +1,47 @@
 class Solution {
     public int orangesRotting(int[][] grid) {
+
+        if (grid == null || grid.length == 0) return -1;
+
+        Queue<int []> q = new LinkedList<>();
         int m = grid.length;
         int n = grid[0].length;
-        int freshOrange = 0;
-        int level = -1;
-        Queue<int[]> q = new LinkedList<>();
-        for (int i = 0; i < m; i++ ){
-            for(int j = 0; j < n; j++){
-                if(grid[i][j] == 2){
-                    q.offer(new int[] {i,j});
+        int freshOranges = 0;
+        for(int i = 0; i < m ; i++ ){
+            for(int j=0; j < n; j++){
+                if(grid[i][j]==2){
+                    q.offer(new int[]{i,j});
                 }else if(grid[i][j] == 1){
-                    freshOrange++;
+                    freshOranges++;
                 }
             }
         }
 
-        if (freshOrange == 0) return 0;
+        int count = 0;
 
-        while (!q.isEmpty()){
+        if (freshOranges == 0) return 0;
+
+        while(!q.isEmpty()){
             int size = q.size();
+            count++;
+            for(int i = 0; i < size; i++){
+                int[][] dirrs = {{0,-1},{0,1},{1,0},{-1,0}};
+                int[] point = q.poll();
 
-            while (size > 0){
-                int[] rottenOrange = q.poll();
-                int row = rottenOrange[0];
-                int col = rottenOrange[1];
-                //System.out.println(row + "and" + col);
+                for(int[] dir : dirrs ){
 
-                for(int i = -1; i < 2; i+=2){
-                    int r = row + i;
+                    int x = point[0] + dir[0];
+                    int y = point[1] + dir[1];
 
-                    if (r < 0 || r >= m) continue;
-                    if (grid[r][col] == 1) {
-                        q.offer(new int[] {r,col});
-                        grid[r][col] = 2;
-                        freshOrange--;
-                        //System.out.println(freshOrange);
-                    }
+                    if( x < 0 || y < 0 || x >= m || y >= n || grid[x][y] == 0 || grid[x][y] == 2) continue;
+
+                    grid[x][y] = 2;
+                    freshOranges--;
+                    q.offer(new int[]{x,y});
+
                 }
-
-                for(int j = -1; j < 2; j+=2){
-                    int c  = col + j;
-
-                    if (c < 0 || c >= n) continue;
-                    if(grid[row][c] == 1){
-                        q.offer(new int[] {row,c});
-                        grid[row][c] = 2;
-                        freshOrange--;
-                        //System.out.println(freshOrange);
-                    }
-                }
-
-                size--;
-
             }
-            level ++;
-            //System.out.println(level);
         }
-        if (freshOrange > 0) return -1;
-        return level;
+        return (freshOranges == 0)? count - 1: -1;
     }
 }
