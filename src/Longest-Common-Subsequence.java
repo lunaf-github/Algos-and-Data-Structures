@@ -30,8 +30,104 @@ Constraints:
     text1 and text2 consist of only lowercase English characters.
  */
 
-class LongestCommonSubsequence {
-    public int longestCommonSubsequence(String text1, String text2){
+/*
+Solving the Problem:
 
+Given:
+text2 = ace
+text1 = abcde
+
+
+if the first letters are equal, text1[0] == text2[0], we can break this into a sub problem
+by replacing the first letters with a value of 1 and adding the sub problem results to it.
+
+1 + {
+text2 = ce
+text1 = abcde
+}
+
+We add one because we found a match and that contributes to the subset's length
+
+But if the first letters don't match, text1[0] != text2[0]
+We can't do this. We eitehr break up into two subproblems. Exclude first character of text1 or text2.
+
+text2 = ce
+text1 = abcde
+
+or
+
+text2 = ace
+text1 = bcde
+
+We can solve this using a matrix
+
+if letters match, go diagonal
+if not, go toward the one with the largest value
+
+We start backward, buttom up.
+
+Step1: e = e , so we add 1 + diagonal value = 1 + 0
+
+dp =
+  a c e   (j)
+a 0 0 0 0
+b 0 0 0 0
+c 0 0 0 0
+d 0 0 0 0
+e 0 0 1 0
+  0 0 0 0
+(i)
+
+Step2: c != 3 , get max of either right or buttom. In this it is 1.
+dp =
+  a c e
+a 0 0 0 0
+b 0 0 0 0
+c 0 0 0 0
+d 0 0 0 0
+e 0 1 1 0
+  0 0 0 0
+
+Step3: repeat for every element going backwards
+
+  a c e
+a 3 2 2 0
+b 2 2 2 0
+c 2 2 1 0
+d 1 1 1 0
+e 1 1 1 0
+  0 0 0 0
+
+Step4: The cell at the top left will contain the larget subset count.
+ */
+
+import java.util.Scanner;
+class LongestCommonSubsequence {
+    public static int longestCommonSubsequence(String text1, String text2){
+        int[][] dp = new int[text2.length() + 1][text1.length() + 1];
+
+        for(int i = text2.length() - 1; i >= 0; i--){
+            for(int j = text1.length() -1; j >= 0; j--){
+                if(text1.charAt(0) == text2.charAt(0)){
+                    dp[i][j] = 1 + dp[i + 1][j + 1];
+                }else{
+                    dp[i][j] = Math.max(dp[i][j + 1], dp[i + 1][j]);
+                }
+            }
+        }
+        return dp[0][0];
+    }
+
+    public static void main(String[] arg){
+        Scanner in= new Scanner(System.in);
+        System.out.println("Enter text1 String");
+        String text1 = in.nextLine();
+
+        System.out.println("Enter text2 String");
+        String text2 = in.nextLine();
+
+        int subsequenceLength = longestCommonSubsequence(text1,text2);
+
+        System.out.println("Longest subsequence length is: " + subsequenceLength);
     }
 }
