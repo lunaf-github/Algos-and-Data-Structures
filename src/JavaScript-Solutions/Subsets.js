@@ -27,7 +27,7 @@ const subsets = function(nums){
     for(let i=start; i<nums.length; i++){
       cur.push(nums[i]);
       helper(i + 1);
-      cur.poll();
+      cur.pop();
     }
     res.push([...cur]);
   }
