@@ -1,4 +1,4 @@
-class Solution {
+class Inplace {
     //search for elements that have value of '1'.
     public int numIslands(char[][] grid) {
         int counter = 0;
@@ -47,4 +47,68 @@ class Solution {
         }
     }
 }
+}
+
+class OutOfPlace {
+    public int numIslands(char[][] grid) {
+        int gridLength = grid.length;
+        int gridWidth = grid[0].length;
+        Set<Integer> visited = new HashSet<>();
+        int count = 0;
+
+        for(int r = 0; r < gridLength; r++){
+            for(int c = 0; c < gridWidth; c++){
+                if(grid[r][c] == '1' && !visited.contains(r*gridWidth + c)){
+                    dfs(r,c,visited,grid);
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public void dfs(int row, int col, Set<Integer> visited, char[][] grid){
+        int gridLength = grid.length;
+        int gridWidth = grid[0].length;
+
+        Queue<Integer> q = new LinkedList<>();
+        int code = row*gridWidth + col;
+        q.add(code);
+        visited.add(code);
+
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i = 0; i < size; i++){
+                int cur = q.poll();
+                int r = cur/gridWidth;
+                int c = cur % gridWidth;
+                // left
+                code = r* gridWidth + c-1;
+                if(c - 1 >= 0 && grid[r][c-1] == '1' && !visited.contains(code)){
+                    q.add(code);
+                    visited.add(code);
+                }
+                // right
+                code = r * gridWidth + (c+1);
+                if(c + 1 < gridWidth && grid[r][c+1] == '1' && !visited.contains(code)){
+                    q.add(code);
+                    visited.add(code);
+                }
+                // up
+                code = (r-1)*gridWidth + c;
+                if(r - 1 >= 0 && grid[r-1][c] == '1' && !visited.contains(code)){
+                    q.add(code);
+                    visited.add(code);
+                }
+                // down
+                code = (r+1)*gridWidth + c;
+                if(r + 1 < gridLength && grid[r+1][c] == '1' && !visited.contains(code)){
+                    q.add(code);
+                    visited.add(code);
+                }
+            }
+        }
+
+    }
 }
