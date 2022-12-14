@@ -1,7 +1,7 @@
 class Solution {
 
     List<String> res;
-
+    
     public List<String> findItinerary(List<List<String>> tickets) {
         res = new ArrayList<>();
         HashMap<String, List<String>> map = new HashMap<>();
