@@ -50,7 +50,7 @@ function reverse(input){
 
 function reverseInPlace(input){
 
-  // reverses characters given a start and end point
+  // function to reverses characters given a start and end point
   function reverse(s,e){ 
     while(s < e){
       let t = input[s];
@@ -59,7 +59,7 @@ function reverseInPlace(input){
     }
   }
 
-  // reverse all words in char array
+  // function to reverse all words in char array
   function reverseWords(){
     let s = 0;
     let e = 0;
