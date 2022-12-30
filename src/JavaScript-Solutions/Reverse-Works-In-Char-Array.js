@@ -46,7 +46,7 @@ function reverse(input){
   return output  
 }
 
-/**           reverse inplace             */ 
+/**          Optimized Solution - inplace             */ 
 
 function reverseInPlace(input){
 
