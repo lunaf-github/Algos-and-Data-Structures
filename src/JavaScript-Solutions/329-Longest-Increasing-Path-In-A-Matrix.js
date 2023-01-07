@@ -29,37 +29,41 @@ Constraints:
  * @param {number[][]} matrix
  * @return {number}
  */
-
 var longestIncreasingPath = function(matrix) {
- const directions = [[0,-1],[-1,0],[0,1],[1,0]];
- const rowLength = matrix.length;
- const rowWidth = matrix[0].length;   
- const cache = Array.from(Array(rowLength), x => Array(rowWidth))
-
+ const width = matrix[0].length;
+ const length = matrix.length;
+ const directions = [[0,-1],[0,1],[1,0],[-1,0]];
+ const cache = Array.from(Array(length), row => Array(width));
+ 
  for(const row of cache) row.fill(0);
  
- function traverse(r,c){
+ function dfs(r,c){
      if(cache[r][c] !== 0) return cache[r][c];
-     let localMax = 1;   
-     for(const dir of directions){       
+     
+     let len = 1;
+     
+     for(const dir of directions){
          const deltaR = dir[0] + r;
-         const deltaC = dir[1] + c;          
-         if(deltaC < 0 || deltaC >= rowWidth || deltaR < 0 
-            || deltaR >= rowLength || matrix[deltaR][deltaC] <= matrix[r][c]) continue;
-         let pathLength = 1 + traverse(deltaR, deltaC)
-         localMax = Math.max(localMax, pathLength);
-     }  
-     cache[r][c] = localMax;
-     return localMax;
+         const deltaC = dir[1] + c;
+         
+         if(deltaR < 0 || deltaC < 0
+           || deltaR >= length || deltaC >= width
+           || matrix[deltaR][deltaC] <= matrix[r][c]) continue;
+         
+         len = Math.max(len, 1 + dfs(deltaR, deltaC));
+     }
+     cache[r][c] = len;
+     return len;
  }
-
- let max = 1;
-
- for(let r = 0; r < matrix.length; r++){
-     for(let c = 0; c < matrix[0].length; c++){
-         const len = traverse(r,c);
-         max = Math.max(max, len);
+ 
+ let longestPath = 1;
+ 
+ for(let r = 0; r < length; r++){
+     for(let c = 0; c < width; c++){
+         const currentPath = dfs(r,c);
+         longestPath = Math.max(longestPath, currentPath);
      }
  }
- return max;
+ 
+ return longestPath;
 };
