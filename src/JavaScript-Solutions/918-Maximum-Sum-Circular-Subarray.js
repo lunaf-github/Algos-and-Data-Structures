@@ -53,5 +53,6 @@ var maxSubarraySumCircular = function(nums) {
      total += num;
  }
  
- return (maxSum > 0)? Math.max(maxSum, total - minSum) : maxSum;
+ return (maxSum > 0)? Math.max(maxSum, total - minSum) : maxSum;  // for the case where
+     // all values in input array are negative. 
 };
