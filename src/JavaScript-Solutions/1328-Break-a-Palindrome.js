@@ -19,3 +19,5 @@ var breakPalindrome = function(palindrome) {
  
  return (charArr.length <=  1) ? '' : charArr.join('');
 };
+
+
