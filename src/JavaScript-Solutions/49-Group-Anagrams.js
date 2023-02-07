@@ -73,3 +73,28 @@ var groupAnagrams = function(strs) {
  return res;
 };
 
+
+var groupAnagrams = function(strs) {
+
+  const res = [];
+  const anagramGroups = new Map();
+  
+  for(const str of strs){
+      const keyArray = Array.from(Array(26), x => 0);
+      
+      for(let i = 0; i < str.length; i++){
+          const charCode = str.charCodeAt(i) -  'a'.charCodeAt(0)
+          keyArray[charCode]++;
+      }
+             
+      const key = keyArray.join(',');
+      if(!anagramGroups.has(key)) anagramGroups.set(key, []);
+      
+      anagramGroups.get(key).push(str);
+  }
+
+  anagramGroups.forEach((value) => res.push(value));
+  
+  return res;
+  
+};
