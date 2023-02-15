@@ -2,12 +2,6 @@
  * @param {number[][]} heights
  * @return {number[][]}
  */
-function position(r,c){
- return 
- {
-         
- }
-}
 
 var pacificAtlantic = function(heights) {
  const n = heights.length;
