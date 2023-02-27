@@ -39,29 +39,40 @@ Constraints:
  * @param {number} k
  * @return {number[]}
  */
-
 var topKFrequent = function(nums, k) {
- const res = [];
- const map = new Map();
-     
- for(const num of nums){
-     map.set(num, (map.get(num) + 1 || 1))
- }
- 
- const buckets = Array.from(Array(nums.length + 1), x => []);
- 
- for(const key of map.keys()){
-     buckets[map.get(key)].push(key);
- }
- 
- 
- for(let i = buckets.length - 1; i > 0; i--){
-     if(buckets[i].length === 0) continue;
-     while(buckets[i].length !== 0 && res.length !== k){
-         res.push(buckets[i].pop());
-     }
- }
- 
- return res;
-     
+  const result = [];
+  const freqMap = new Map();
+  const buckets = Array.from(Array(nums.length + 1), addEmptyArray);
+  
+  for (const num of nums){
+      if (!freqMap.has(num)) freqMap.set(num, 0);
+      freqMap.set(num, freqMap.get(num) + 1);
+  }
+  
+  freqMap.forEach(addToBucket)
+  
+  for (let cur = buckets.length -1; cur > 0; cur--){
+      let curBucket = buckets[cur];
+      let bucketSize = curBucket.length;
+      if (bucketSize === 0) continue;
+      
+      for (let i = 0; i < bucketSize; i++){
+          if (k === 0) return result;
+          result.push(curBucket[i]);
+          k -= 1;
+      }
+  }
+  
+  return result;
+  
+  //*****************
+  
+  function addToBucket(freq, num){
+      buckets[freq].push(num);
+  }
+  
+  function addEmptyArray(){
+      return [];
+  }
+  
 };
