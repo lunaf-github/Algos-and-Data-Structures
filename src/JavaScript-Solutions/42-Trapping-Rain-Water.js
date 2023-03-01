@@ -35,7 +35,34 @@ var trap = function(height) {
     return totalTrappedWater;
 };
 
-
+var trapOptimized = function(height) {
+    const arrLength = height.length;
+    var totalTrappedWater = 0;
+    var left = 0;
+    var right = arrLength - 1;
+    var maxLeft = height[left];
+    var maxRight = height[right];
+    
+    while (left < right) {
+        let minWallHeight = Math.min(maxLeft, maxRight);
+        let containedWater = 0;
+        
+        
+        if (maxLeft <= maxRight) {
+            left += 1;
+            maxLeft = Math.max(maxLeft, height[left]);
+            containedWater = minWallHeight - height[left];
+        }else {
+            right -= 1;
+            maxRight = Math.max(maxRight, height[right]);
+            containedWater = minWallHeight - height[right]
+        }
+        
+        if (containedWater > 0) totalTrappedWater += containedWater;
+    }
+    
+    return totalTrappedWater;
+};
 
 
 
