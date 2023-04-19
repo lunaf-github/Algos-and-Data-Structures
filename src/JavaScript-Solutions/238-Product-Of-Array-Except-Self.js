@@ -67,3 +67,25 @@ var productExceptSelf = function(nums) {
  
  return output;
 };
+
+
+
+var productExceptSelf = function(nums) {
+  const res = Array.from(Array(nums.length), x => 1);
+  
+  var product = 1;
+
+  for (let i = nums.length - 1; i > 0; i-=1) {
+      product *= nums[i];
+      res[i - 1] = product;
+  }
+  
+  product = 1;
+  
+  for (let i = 0; i < nums.length - 1; i+=1) {
+      product *= nums[i];
+      res[i + 1] *= product;
+  }
+  
+  return res;  
+};
