@@ -5,47 +5,56 @@
  * @return {number}
  */
 
+// TC: O(nlogn)
+// SC: O(n)
+
 var carFleet = function(target, position, speed) {
-    
- const cars = position.map(addPositionAndTime);
- cars.sort(ascPosition);
- 
- var carFleets = 0;
- var frontCarTargetTime = 0;
- 
- for (let i = cars.length - 1; i >= 0; i -= 1) {
-     let curCarTargetTime = cars[i][1];
-     
-     if (curCarTargetTime > frontCarTargetTime) {
-         carFleets += 1;
-         frontCarTargetTime = curCarTargetTime;
-     }
- }
- 
- return carFleets;
- 
- // ******************
- 
- function addPositionAndTime(position, i) {
-     const time = (target - position) / speed[i];
-     return [position, time];
- }
- 
- function ascPosition(a, b) {
-     return a[0] - b[0];
- }
-};
+    // cars array, each element is an object with startPosition and arrivalTime props: TC O(n)
+    const cars = position.map((startPosition, i) => {
+         const arrivalTime = (target - startPosition) / speed[i];
+         return {arrivalTime, startPosition};
+    });
+
+    // Sort cars arrays based on startPosition: TC O(nlogn)
+    cars.sort((a,b) => a.startPosition - b.startPosition);
+
+    // monotonic decreasing stack based on arrivalTime: TC O(n)
+    const fleetStack = [];
+    // pop from stack if current arrivalTime >= top of stack arrivalTme
+    for (let i = 0; i < cars.length; i++) {
+        while (!isEmpty(fleetStack) && cars[i].arrivalTime >= stackPeek(fleetStack).arrivalTime) {
+            fleetStack.pop();
+        }
+        fleetStack.push(cars[i]);
+    }
+    // return size of stack: TC O(1)
+    return fleetStack.length;
+
+    // ***************************
+
+    function stackPeek(stack) {
+        return stack[stack.length - 1];
+    }
+
+    function isEmpty(stack) {
+        return stack.length === 0;
+    }
+}
 
 /**
  * Intuition:
  * 
- * Whenever position, time, and target is mentioned, linearly
- * graph the problem to help discover a pattern. 
+ * Whenever position and time is mentioned, graph the problem to discover the pattern. 
  * 
- * In this case, it is discovered that if a car at a position behind another car
- * has a smaller arrival time compared to the car in front of it, the car will 
- * end up catching up to the front car and both cars will become a fleet
+ * In this problem, all cars are moving at a certain speed starting at a specified point. 
+ * We can calculate the arrival time for each car by using ArrivalTime = (distance/ speed)
+ * This formula was derived from speed = distance / time. 
+ * The distance is the difference between the target position and starting position. distance = targetPosition - startPostion. 
  * 
- * If the car behind has a larger arrival time compared to the car at the front, 
- * The behind car will never cath up to the front car. 
+ * Now that we can calculate that arrival time for each car, we can use this information to determine if a car will catch up with another car. 
+ * If a car's arrival time is less than the arrival time of a car in front of it, that means that it will catch up.
+ * 
+ * We create an array where each element contains the start position and arrival time. We need the start position so that we can sort this array. 
+ * 
+ * We can use a monotonic decreasing stack based on arrival time to determine the number of fleets. 
 */
