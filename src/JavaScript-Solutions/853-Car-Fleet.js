@@ -49,12 +49,17 @@ var carFleet = function(target, position, speed) {
  * In this problem, all cars are moving at a certain speed starting at a specified point. 
  * We can calculate the arrival time for each car by using ArrivalTime = (distance/ speed)
  * This formula was derived from speed = distance / time. 
- * The distance is the difference between the target position and starting position. distance = targetPosition - startPostion. 
+ * The distance is the difference between the target position and starting position. 
+ * distance = targetPosition - startPostion. 
  * 
- * Now that we can calculate that arrival time for each car, we can use this information to determine if a car will catch up with another car. 
- * If a car's arrival time is less than the arrival time of a car in front of it, that means that it will catch up.
+ * Now that we can calculate that arrival time for each car, we can use this information to 
+ * determine if a car will catch up with another car. 
  * 
- * We create an array where each element contains the start position and arrival time. We need the start position so that we can sort this array. 
+ * If a car's arrival time is less than the arrival time of a car in front of it, that means 
+ * that it will catch up.
+ * 
+ * We create an array where each element contains the start position and arrival time. We 
+ * need the start position so that we can sort this array. 
  * 
  * We can use a monotonic decreasing stack based on arrival time to determine the number of fleets. 
 */
