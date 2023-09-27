@@ -93,6 +93,28 @@ var maxSlidingWindow = function(nums, k) {
     return output;
 };
 
+
+var maxSlidingWindow = function(nums, k) {
+    const output  = [];
+    const deque = []; // indexes
+    let l = 0;
+
+    for (let r = 0; r < nums.length; r++) {
+
+        while (deque.length > 0 && nums[r] > nums[deque[deque.length - 1]]) {
+            deque.pop();
+        }
+        deque.push(r);
+
+        if (r - l + 1 >= k) {
+            output.push(nums[deque[0]]);
+            l++;
+            if (deque[0] < l) deque.shift();
+        }
+    }
+    return output;
+};
+
 // Intuition:
 // Bruteforce: For each window of size k, iterate through each element to find the max within the window. 
 // The window will keep shifting towards teh right until he r pointer is out of bound. 
@@ -116,3 +138,5 @@ var maxSlidingWindow = function(nums, k) {
 // We need to pop all right values of the deque that are smaller than the new r value
 // We need to make sure that the left most index in the deque is within the window. Left most deque element is the smallest (oldest) index
 // If our window is of size k, add the value of the left most index in the deque
+
+
