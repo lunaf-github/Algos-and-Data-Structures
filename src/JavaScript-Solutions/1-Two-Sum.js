@@ -41,6 +41,9 @@ Constraints:
   Only one valid answer exists.
 */
 
+// TC = O(n);
+// SC = O(n);
+
 /**
  * @param {number[]} nums
  * @param {number} target
@@ -48,11 +51,16 @@ Constraints:
  */
 
 var twoSum = function(nums, target) {
- const map = new Map();
- for(let i = 0; i < nums.length; i++){
-     if(map.has(nums[i])) return [i, map.get(nums[i])]
-     map.set(target - nums[i], i);
- }
- return [-1,-1]
+  const needMap = new Map();
+
+  for (let i = 0; i < nums.length; i++) {
+      const need = target - nums[i];
+
+      if (needMap.has(need)) {
+          return [i, needMap.get(need)];
+      } else {
+          needMap.set(nums[i], i);
+      }
+  }
 };
  
