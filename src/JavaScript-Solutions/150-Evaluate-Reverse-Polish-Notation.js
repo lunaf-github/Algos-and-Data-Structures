@@ -37,30 +37,39 @@ High level solution strategy:
  */
 
 var evalRPN = function(tokens) {
- const stack = [];
- 
- for(const token of tokens){
-     if(token === '+'){
-         let a = stack.pop();
-         let b = stack.pop();
-         stack.push(a + b);
-     }else if(token === '-'){
-         let a = stack.pop();
-         let b = stack.pop();
-         stack.push(b - a);
-     }else if(token === '*'){
-         let a = stack.pop();
-         let b = stack.pop();  
-         stack.push(a * b);
-     }else if(token === '/'){
-         let a = stack.pop();
-         let b = stack.pop();   
-         if(a >= 0 && b >= 0 || a < 0 && b < 0) stack.push(Math.floor(b / a));
-         else stack.push(Math.ceil(b/a));
-     }else{
-         stack.push(parseInt(token));
-     }
- }
+    const stack = [];
 
- return  stack.pop();
+    tokens.forEach(token => {
+        switch (token) {
+            case '+':
+                stack.push(stack.pop() + stack.pop());
+                break;
+            case '-':
+                stack.push(-stack.pop() + stack.pop());
+                break;
+            case '*':
+                stack.push(stack.pop() * stack.pop());
+                break;
+            case '/':
+                const divisor = stack.pop();
+                const dividend = stack.pop();
+
+                // truncate the value toward zero
+                stack.push((dividend / divisor) | 0);
+                break;
+            default:
+                stack.push(Number(token));
+                break;
+        }
+    });
+
+    return stack[0];
 };
+
+/*
+    Inside a switch case block, each case does not contain it's own block scope. 
+    So, declaring a variable inside a case declares the variable for the whole switch block
+
+    Also, for operation where order matters such as subtraction and division, make sure that
+    the first second popped value is the the left operand and the second is the right operand. 
+ */
