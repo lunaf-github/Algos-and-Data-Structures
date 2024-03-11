@@ -34,58 +34,56 @@ Constraints:
 */
 
 
-function numIsland(grid){
-  const gridLength = grid.length;
-  const gridWidth = grid[0].length;
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var numIslands = function(grid) {
 
-  const gridClone = [...grid];
-  let count = 0;
+  // deep copy
+  const gridCopy = grid.map(row => {
+      return [...row];
+  })
 
-  function dfs(row, col){
-    count++;
-    const q = [];
-    q.push([row,col]);
+  const GRID_WIDTH = gridCopy[0].length;
+  const GRID_HEIGHT = gridCopy.length;
 
-    while(q.length !== 0){
-      const size = q.length;
-      for(let z = 0; z < size; z++){
-        const cur = q.shift();
-        const r = cur[0];
-        const c = cur[1];
+  let numIslands = 0;
 
-        // left
-        if(c - 1 >= 0 && gridClone[r][c-1] === '1'){
-          q.push([r,c-1]);
-          gridClone[r][c-1] = '0';
-        }
-        // right
-        if(c + 1 < gridWidth && gridClone[r][c+1] === '1'){
-          q.push([r,c+1]);
-          gridClone[r][c+1] = '0';
-        }
-        // up
-        if(r - 1 >= 0 && gridClone[r-1][c] === '1'){
-          q.push([r-1,c]);
-          gridClone[r-1][c] = '0';
-        }
-        // down
-        if(r + 1 < gridLength && gridClone[r+1][c] === '1'){
-         q.push([r+1,c]);
-         gridClone[r+1][c] = '0';
-        }        
+  for (let r = 0; r < GRID_HEIGHT; r += 1) {
+      for (let c = 0; c < GRID_WIDTH; c += 1) {
+          if (gridCopy[r][c] === '1') {
+              numIslands += 1;
+              exploreIsland(r, c);
+          }
       }
-    }
   }
 
-  for(let i = 0; i < gridLength; i++){
-    for(let j = 0; j < gridWidth; j++){
-      if(gridClone[i][j] === '1') dfs(i,j);
-    }
+  return numIslands;
+
+  // *******************************
+  function exploreIsland(row, col) {
+      // check boundaries
+      if (row < 0 || row >= GRID_HEIGHT) return;
+      if (col < 0 || col >= GRID_WIDTH) return;
+
+      // prevent revisiting or exploring outside island
+      if (gridCopy[row][col] === '0') return;
+
+      // mark visited position
+      gridCopy[row][col] = '0';
+
+      // explore
+      exploreIsland(row + 1, col);
+      exploreIsland(row - 1, col);
+      exploreIsland(row, col + 1);
+      exploreIsland(row, col - 1);
   }
+};
 
-  return count;
-}
 
+
+// test
 const grid = [
  ["1","1","0","0","0"],
  ["1","1","0","0","0"],
