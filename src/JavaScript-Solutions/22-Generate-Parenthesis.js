@@ -8,33 +8,34 @@
 // valid IIF open == closed == n
 
 var generateParenthesis = function(n) {
- n = Number(n);
- if(isNaN(n)) return NaN;
- 
- const stack = [];
- const res = [];
+    const stack = [];
+    const res = [];
+    
+    backtrack(0,0);
+    return res;
 
- 
- function backtrack(openN , closedN){
-     if(openN === n && closedN === n){
-         res.push(stack.join(''));
-         return;
-     }
-     
-     if(openN < n || openN === closedN){
-         stack.push('(');
-         backtrack(openN + 1, closedN);
-         stack.pop();
-     }
-     
-     if(openN === n || closedN < openN){
-         stack.push(')');
-         backtrack(openN, closedN + 1);
-         stack.pop();
-     }
- }
- 
- backtrack(0,0)
- 
- return res;
+    // ************************************
+    
+    function backtrack(open, close) {
+        // base case, complete valid parethesis string
+        if (open === n && close === n) {
+            res.push(stack.join(''));
+            return;
+        }
+
+        // add open parethesis as long as qty is less than n
+        if (open < n) {
+            stack.push('(');
+            backtrack(open + 1, close);
+            stack.pop();
+        }
+
+        // never add closed parenthesis if close is equal to open 
+        if (close < open) {
+            stack.push(')');
+            backtrack(open, close + 1);
+            stack.pop();
+        }
+    }
+
 };
