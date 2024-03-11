@@ -59,7 +59,6 @@ var evalRPN = function(tokens) {
                 break;
             default:
                 stack.push(Number(token));
-                break;
         }
     });
 
