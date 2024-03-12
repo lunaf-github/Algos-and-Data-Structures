@@ -27,43 +27,49 @@ Constraints:
  * @return {boolean}
  */
 var searchMatrix = function(matrix, target) {
- //binary search on the left side rows
- const width = matrix[0].length;
- const length = matrix.length;
- 
- let top = 0;
- let bottom = length - 1;
- 
- while(top <= bottom){
-     const rowMid = top + Math.floor((bottom - top)/2);
-     
-     if(matrix[rowMid][0] === target || matrix[rowMid][width - 1] === target) return true;
-     //if mid is less than our target and right num is greater than target
-     if(matrix[rowMid][0] < target && matrix[rowMid][width - 1] > target){
-         //then binary search this row
-         let left = 0;
-         let right = width - 1;
-         
-         while(left <= right){
-             const colMid = left + Math.floor((right - left)/2);
-             
-             if(matrix[rowMid][colMid] === target) return true;
-             
-             if(matrix[rowMid][colMid] > target) right = colMid - 1;
-             else left = colMid + 1;
-         }
-         return false;
-     }
-     //if mid is less than our target, and right num is less than target
-     if(matrix[rowMid][0] < target){
-         //then move top pointer to mid + 1;
-         top = rowMid + 1;
-     }else{
-         //else move right pointer to mid - 1;
-         bottom = rowMid - 1;
-     }
- }
- return false; 
+  const MATRIX_WIDTH = matrix[0].length;
+  const MATRIX_HEIGHT = matrix.length;
+
+  let top = 0;
+  let bottom = MATRIX_HEIGHT - 1;
+
+  while (top <= bottom) {
+      const verticalMid = top + Math.floor((bottom - top) / 2);
+
+      if (matrix[verticalMid][0] <= target && 
+          matrix[verticalMid][MATRIX_WIDTH - 1] >= target) return hasTarget(verticalMid);
+
+      if (matrix[verticalMid][0] > target) {
+          bottom = verticalMid - 1;
+      } else {
+          top = verticalMid + 1;
+      }
+  }
+
+  return false;
+
+  // **************
+
+  function hasTarget(row) {
+      const nums = matrix[row];
+
+      let left = 0;
+      let right = nums.length - 1;
+
+      while (left <= right) {
+          const mid = left + Math.floor((right - left) / 2);
+
+          if (nums[mid] === target) return true;
+
+          if (nums[mid] > target) {
+              right = mid - 1;
+          } else {
+              left = mid + 1;
+          }
+      }
+
+      return false;
+  }
 };
 
 /**
