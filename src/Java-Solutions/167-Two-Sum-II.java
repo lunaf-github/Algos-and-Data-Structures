@@ -1,22 +1,31 @@
+
 class Solution {
     public int[] twoSum(int[] numbers, int target) {
-        // seen hashSet
-        HashMap<Integer, Integer> seen = new HashMap<>();
+        int left = 0;
+        int right = numbers.length - 1;
 
-        // iterate
-        for(int i = 0; i < numbers.length; i++){
-            // target minus number should equal missing number
-            int missingNum = target - numbers[i];
-            // check if missing number is in the seen hashmap
-            if(seen.containsKey(missingNum)){
-                // if yes, then return array of index 1 and index2
-                return new int[]{seen.get(missingNum), i + 1};
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int sum = numbers[left] + numbers[right];
+
+            if (sum == target)
+                return new int[] { left + 1, right + 1 };
+
+            if (sum > target) {
+                if (numbers[left] + numbers[mid] > target) {
+                    right = mid - 1;
+                } else {
+                    right -= 1;
+                }
+            } else {
+                if (numbers[mid] + numbers[right] < target) {
+                    left = mid + 1;
+                } else {
+                    left += 1;
+                }
             }
-            // add current number to seen
-            seen.put(numbers[i], i + 1);
         }
 
-        return new int[0];
-
+        return new int[] { 0, 0 };
     }
 }
