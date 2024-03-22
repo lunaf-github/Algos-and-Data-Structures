@@ -53,13 +53,15 @@ var merge = function(intervals) {
  let prevInterval = intervals[0];
  output.push(prevInterval);
  
- for(const interval of intervals){
-     if(prevInterval[1] >= interval[0]){
-         prevInterval[1] = Math.max(prevInterval[1], interval[1]);
-     }else{
-         prevInterval = interval;
-         output.push(prevInterval);
-     }
- }
+ intervals.forEach(interval => {
+   if (prevInterval[1] >= interval[0]) {
+       prevInterval[1] = Math.max(prevInterval[1], interval[1]);
+   } else {
+       prevInterval = interval;
+       output.push(prevInterval);
+   }
+ });
+ 
+
  return output;
 };
