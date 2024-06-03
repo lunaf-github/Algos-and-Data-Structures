@@ -4,7 +4,7 @@
  * @return {boolean}
  */
 
-// Solution 1 - Sliding Window w/ Character Frequency (Array)
+// Best Solution - Sliding Window w/ Character Frequency (Array)
 
 var checkInclusion = function(s1, s2) {
     

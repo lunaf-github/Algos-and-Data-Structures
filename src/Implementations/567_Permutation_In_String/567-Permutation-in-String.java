@@ -2,7 +2,37 @@ import java.util.Map;
 import java.util.HashMap;
 
 class Solution {
-    public boolean checkInclusion(String s1, String s2) {
+
+    // Best Solution - Sliding Window w/ Character Frequency (Array)
+    public boolean checkInclusionV1(String s1, String s2) {
+        int[] freqCounter = new int[26];
+
+        for (char ch : s1.toCharArray()) {
+            int charCode = ch - 'a';
+            freqCounter[charCode]++;
+        }
+
+        int left = 0;
+        for (int right = 0; right < s2.length(); right++) {
+            int rightCharCode = s2.charAt(right) - 'a';
+
+            freqCounter[rightCharCode] -= 1;
+
+            while (freqCounter[rightCharCode] < 0) {
+                int leftCharCode = s2.charAt(left) - 'a';
+                freqCounter[leftCharCode]++;
+                left++;
+            }
+
+            if (right - left + 1 == s1.length()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean checkInclusionV2(String s1, String s2) {
         if (s1.length() > s2.length())
             return false;
 

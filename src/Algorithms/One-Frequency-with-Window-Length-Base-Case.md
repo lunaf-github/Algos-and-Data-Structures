@@ -1,6 +1,13 @@
 
 # Sliding Window w/ Character Frequency
 
+**Topics**
+* permutation
+* Anagram (permutation in strings)
+* Sliding Window
+* HashMap
+
+
 
 **Purpuse** \
 Finding Anagrams in a String
@@ -13,6 +20,8 @@ SC: O(n), size of key-value structure depends on the number of unique characters
 
 ```
 Initialize a Character frequency counter
+
+Count frequencies of target string into frequency counter
 
 Initialize left pointer at index 0
 initialize right pointer at index 0
@@ -36,12 +45,14 @@ SC: O(24), This is because of the frequency array is length of 24
 ```
 Initialize a Character frequency Array
 
+Count frequencies of target string into frequency array
+
 Initialize left pointer at index 0
 initialize right pointer at index 0
 
 Loop while the "right" pointer is within bound, one character per iteration
 
-    Decrement frequency by one 
+    Decrement current character's frequency by one 
 
     Loop while exceeding characters gone, detected by negative frequencies
 
@@ -61,4 +72,6 @@ If we use a hashmap or other key-value structure such as an object, we will need
 ## Implementations
 
 [567 Permutation in String](../Implementations/567_Permutation_In_String/)
+
+[438 Find All Anagrams in a string]()
 
