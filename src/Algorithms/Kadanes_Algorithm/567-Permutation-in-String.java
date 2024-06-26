@@ -3,7 +3,6 @@ import java.util.HashMap;
 
 class Solution {
 
-    // Best Solution - Sliding Window w/ Character Frequency (Array)
     public boolean checkInclusionV1(String s1, String s2) {
         int[] freqCounter = new int[26];
 
@@ -70,4 +69,5 @@ class Solution {
 
         return false;
     }
+
 }
